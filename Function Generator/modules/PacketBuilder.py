@@ -1,5 +1,5 @@
 import struct
-from Protocol import *
+from modules.protocol import *
 
 # -----------------------------
 # Packet builder

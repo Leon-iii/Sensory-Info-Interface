@@ -1,6 +1,6 @@
 import serial
 
-from Protocol import DEFAULT_TIMEOUT_SEC
+from modules.protocol import DEFAULT_TIMEOUT_SEC
 
 class SerialTransport:
     def __init__(self, port: str, baudrate: int = 115200, timeout: float = DEFAULT_TIMEOUT_SEC) -> None:
