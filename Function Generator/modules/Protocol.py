@@ -1,7 +1,11 @@
 from enum import IntEnum
 
 # 패킷 구조:
-# [magic 2B] [version 1B] [cmd 1B] [sample_rate 4B] [sample_count 2B] [samples 2B * N] [checksum 2B]
+
+# PING: [magic 2B] [version 1B] [cmd 1B] [checksum 2B]
+# LOAD_SAMPLES: [magic 2B] [version 1B] [cmd 1B] [sample_rate 4B] [sample_count 2B] [samples 2B * N] [checksum 2B]
+# START:[magic 2B] [version 1B] [cmd=START 1B] [checksum 2B]
+# STOP: [magic 2B] [version 1B] [cmd=STOP 1B] [checksum 2B]
 
 MAGIC = 0xAA55                   # 패킷 시작을 식별하기 위한 고정 매직 넘버
 PROTOCOL_VERSION = 1             # 프로토콜 버전
