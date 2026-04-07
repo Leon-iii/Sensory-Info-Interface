@@ -22,6 +22,9 @@ class SerialTransport:
         if self.ser is not None and self.ser.is_open:
             self.ser.close()
 
+    def is_open(self) -> bool:
+        return self.ser is not None and self.ser.is_open
+
     def write_packet(self, packet: bytes) -> None:
         # 포트가 안 열려 있으면 송신 불가
         if self.ser is None or not self.ser.is_open:

@@ -537,15 +537,21 @@ class FunctionGeneratorApp:
             self.transport.open()
             time.sleep(2.0)  # 일부 보드는 포트 오픈 직후 리셋됨
             self.log(f"Connected to {port}")
+
+            self._update_connection_ui()
         except Exception as e:
             messagebox.showerror("Connection Error", str(e))
             self.log(f"Connect failed: {e}")
+
+            self._update_connection_ui()
 
     def disconnect_port(self) -> None:
         # 시리얼 포트 연결 해제
         if self.transport is not None:
             self.transport.close()
             self.log("Disconnected")
+
+            self._update_connection_ui()
 
     def _build_waveform(self) -> list[float]:
         # GUI 입력값을 읽어서 실제 파형 샘플 리스트 생성
