@@ -9,7 +9,7 @@ from enum import IntEnum
 
 MAGIC = 0xAA55                   # 패킷 시작을 식별하기 위한 고정 매직 넘버
 PROTOCOL_VERSION = 1             # 프로토콜 버전
-DEFAULT_TIMEOUT_SEC = 1.0        # 시리얼 읽기 타임아웃 기본값(초)
+DEFAULT_TIMEOUT_SEC = 0.1        # 시리얼 읽기 타임아웃 기본값(초)
 
 
 class Command(IntEnum):
