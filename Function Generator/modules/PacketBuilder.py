@@ -25,33 +25,43 @@ class PacketBuilder:
 
     @classmethod
     def build_load_samples_packet(
-        cls,
+        cls: type["PacketBuilder"],
         sample_rate_hz: int,
         samples: list[int],
+        bits: int,
+        v_min: float,
+        v_max: float,
+        flags: int = 0,
     ) -> bytes:
-        # 샘플 데이터가 비어 있으면 전송할 의미가 없음
         if not samples:
             raise ValueError("samples must not be empty")
 
-        # sample_count 필드가 uint16이므로 최대 65535개까지 허용
         if len(samples) > 65535:
             raise ValueError("sample count exceeds uint16 range")
 
-        # 샘플 배열을 little-endian uint16 바이트열로 직렬화
-        samples_blob = struct.pack(f"<{len(samples)}H", *samples)
+        if not (1 <= bits <= 16):
+            raise ValueError("bits must be between 1 and 16")
 
-        # 헤더 구성: 매직, 버전, 명령, 샘플레이트, 샘플 개수
-        header = struct.pack(
-            "<HBBIH",
+        samples_blob: bytes = struct.pack(f"<{len(samples)}H", *samples)
+
+        # header:
+        # magic(2) version(1) cmd(1)
+        # sample_rate(4) sample_count(2) bits(1) flags(1) v_min(4) v_max(4)
+        header: bytes = struct.pack(
+            "<HBBIHBBff",
             MAGIC,
             PROTOCOL_VERSION,
             Command.LOAD_SAMPLES,
             sample_rate_hz,
             len(samples),
+            bits,
+            flags,
+            v_min,
+            v_max,
         )
 
-        body = header + samples_blob
-        checksum = cls.checksum16(body)
+        body: bytes = header + samples_blob
+        checksum: int = cls.checksum16(body)
 
         return body + struct.pack("<H", checksum)
 

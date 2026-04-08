@@ -907,6 +907,10 @@ class FunctionGeneratorApp:
             packet = PacketBuilder.build_load_samples_packet(
                 sample_rate_hz=self.sample_rate_var.get(),
                 samples=self.last_samples_dac,
+                bits=self.quant_bits_var.get(),
+                v_min=self.quant_min_var.get(),
+                v_max=self.quant_max_var.get(),
+                flags=0,
             )
             self._mark_tx_time()
 
